@@ -1,0 +1,436 @@
+<!doctype html>
+<!-- FASTEST HAND — UN SINGUR HTML
+     Deschide acest fișier în browser. Nu necesită Node.js pentru demo pe PC.
+     Ordine în cod: CSS → pagina gazdei → controller încorporat → reguli → interfață.
+     Pentru telefoane reale folosește serverul LAN inclus în pachetul opțional.
+-->
+<html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101416"><title>Fastest Hand — HTML</title>
+<style>:root{color-scheme:dark;--bg:#101416;--panel:#1b2326;--line:#314044;--ink:#f2ead8;--muted:#9caeaf;--gold:#f4ac43;--red:#f65b50;--mint:#63c5be}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,"Segoe UI",sans-serif}main{max-width:1440px;padding:24px 32px;margin:auto}header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:20px;border-bottom:1px solid var(--line)}.brand{font-size:28px;font-weight:900;letter-spacing:2px}.subtitle{font-size:12px;color:var(--muted);letter-spacing:1.5px;margin-top:8px}.room{font-size:20px;color:var(--gold);font-weight:800;text-align:right}
+h1{font-size:clamp(32px,4vw,62px);line-height:1.08;margin:20px 0 24px}h2{font-size:27px;margin:12px 0 20px}p{line-height:1.55;color:var(--muted)}.eyebrow{font-size:12px;color:var(--gold);letter-spacing:2px;font-weight:800}.layout{display:grid;grid-template-columns:minmax(300px,.8fr) minmax(0,1.2fr);gap:28px;align-items:center;min-height:600px}.panel{padding:28px;background:var(--panel);border:1px solid var(--line);border-radius:18px}.menu-panel{max-width:610px}.actions{display:flex;gap:12px;flex-wrap:wrap}.actions>*{flex:1}.menu-panel .actions{margin-top:13px}
+button{font:800 15px system-ui;min-height:48px;padding:13px 19px;border:0;border-radius:10px;background:var(--gold);color:#151a1c;cursor:pointer;touch-action:manipulation}button:disabled{opacity:.4;cursor:default}button.secondary{background:#294247;color:var(--ink)}button.danger{background:var(--red)}button.ghost{background:transparent;color:var(--muted)}button.full{width:100%;margin:14px 0 4px}.play{min-height:68px;font-size:22px;letter-spacing:2px}input{font:inherit;max-width:100%;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);padding:13px}input[type=range]{width:100%;padding:0;accent-color:var(--gold)}label{display:block;margin:20px 0 12px;color:var(--muted)}a{color:var(--mint);overflow-wrap:anywhere}:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+canvas{display:block;width:100%;height:auto}.menu-art{min-width:0}.menu-art p{text-align:center}.settings-panel,.help-panel{max-width:800px;margin:40px auto}.players{display:grid;gap:12px}.player{display:flex;gap:15px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px}.avatar{width:46px;height:46px;display:grid;place-items:center;border-radius:50%;color:var(--bg);font-weight:900;flex-shrink:0}.player-name{flex:1;min-width:0;overflow-wrap:anywhere}.player-name b{display:block}.player small{color:var(--muted)}.player button{min-height:40px}.empty{opacity:.55}.local-form{display:flex;gap:10px;margin-top:18px}.local-form input{flex:1;min-width:0}.lobby-heading{display:flex;align-items:center;gap:15px;justify-content:space-between;flex-wrap:wrap}.big-code{font-size:clamp(40px,5vw,68px);letter-spacing:9px;color:var(--gold);font-weight:900;font-variant-numeric:tabular-nums;margin:15px 0 20px}.address{display:flex;align-items:center;gap:12px;background:var(--bg);padding:14px;border-radius:10px;margin:12px 0}.address a{flex:1}.address button{font-size:12px;min-height:36px;padding:8px 12px}.hint{font-size:13px;color:var(--muted)}
+.match-top{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:24px 0 5px}.match-top h2{margin:0;font-size:24px;color:var(--gold)}.message{background:var(--panel);border-radius:12px;padding:18px;text-align:center;color:var(--ink);font-size:20px;min-height:64px}.test-controls{padding:20px;background:#213034;border:1px solid var(--line);border-radius:12px;margin-top:20px}.test-controls h2{font-size:18px;color:var(--gold)}.test-controls .actions{gap:9px}.test-controls button{flex:0 1 auto}.test-controls .private-card{color:var(--gold)}.match-actions{text-align:center;padding-top:16px}.closed{text-align:center;margin:100px auto;max-width:700px}.connecting{text-align:center;margin:90px 20px}#network{min-height:20px;font-size:13px;color:var(--gold);margin:10px 0}#error{position:sticky;bottom:16px;border-radius:12px;padding:16px 20px;background:#65312c;color:#fff5e7;max-width:900px;margin:20px auto 0}footer{text-align:center;font-size:11px;color:var(--muted);letter-spacing:2px;padding:28px 0 0}
+@media(max-width:850px){main{padding:18px}.layout{grid-template-columns:1fr;min-height:0;margin-top:20px}.menu-art{max-width:650px;margin:auto}.menu-panel{max-width:none}.big-code{letter-spacing:6px}.panel{padding:22px}.match-top{align-items:flex-start}.match-top h2{font-size:19px}.match-top button{font-size:12px}.test-controls .actions{display:flex}.local-form{flex-wrap:wrap}.local-form button{flex:1}.brand{font-size:22px}.room{font-size:15px}}
+@media(max-width:450px){header{align-items:flex-start;gap:12px}.subtitle{font-size:10px;line-height:1.5}.brand{font-size:18px}.room{font-size:12px}.panel{padding:18px}.address{flex-wrap:wrap}.address a{flex-basis:100%}.message{font-size:16px}.actions>*{min-width:100px}.player{padding:12px}.player-name{font-size:14px}.player small{font-size:11px}}
+
+#workspace.with-controller{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:24px;align-items:start}
+.board-column{min-width:0}.controller-dock{background:#1b2326;border:1px solid #314044;border-radius:16px;padding:14px;margin-top:24px;min-width:0}
+.controller-dock h2{font-size:18px;margin:5px 0 12px}.controller-dock select{width:100%;font:inherit;padding:10px;background:#101416;color:#f2ead8;border:1px solid #314044;border-radius:8px}
+.controller-dock iframe{display:block;width:100%;height:1020px;border:0;margin-top:12px;border-radius:12px;background:#101416}
+.mode-label{font-size:11px;color:#9caeaf;letter-spacing:1px;margin-top:8px}.demo-join{max-width:420px;margin:24px auto}.demo-join iframe{height:760px}
+@media(max-width:1000px){#workspace.with-controller{grid-template-columns:1fr}.controller-dock{max-width:480px;width:100%;margin:20px auto}.controller-dock iframe{height:1050px}}
+</style></head>
+<body><main><header><div><div class="brand">FASTEST HAND</div><div class="subtitle">PARTY GAME · 2–4 JUCĂTORI · 2D</div></div><div id="room" class="room">HTML · DEMO LOCAL</div></header>
+<p id="network" role="status" aria-live="polite"></p><div id="workspace"><div id="content" class="board-column"></div><div id="dock-root" hidden></div></div><p id="error" role="alert" hidden></p><footer>FASTEST HAND · HTML</footer></main>
+<script>
+'use strict';
+const CONTROLLER_HTML="<!doctype html>\n<html lang=\"ro\">\n<head>\n<meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\">\n<meta name=\"theme-color\" content=\"#101416\"><title>Fastest Hand · Controller<\/title>\n<style>\n:root{color-scheme:dark;--bg:#101416;--surface:#1b2326;--line:#314044;--ink:#f2ead8;--muted:#9caeaf;--gold:#f4ac43;--red:#f65b50;--mint:#63c5be}\n*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,sans-serif;min-height:100dvh;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}\nmain{max-width:520px;margin:auto;padding:22px 22px 40px}header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px}\n.brand{font-size:19px;font-weight:900;letter-spacing:1px}.tag{font-size:11px;letter-spacing:1.4px;color:var(--muted);margin-top:5px}.code{color:var(--gold);font-weight:800;font-variant-numeric:tabular-nums}.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;font-weight:800;text-transform:uppercase}\nh1{font-size:36px;line-height:1.08;margin:13px 0 17px}h2{font-size:25px;line-height:1.15;margin:8px 0 12px}p{color:var(--muted);line-height:1.5;margin:9px 0}.panel{padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:18px;margin:16px 0}\nlabel{display:block;font-size:13px;color:var(--muted);margin:18px 0 8px}input{width:100%;background:#11191c;border:1px solid var(--line);border-radius:12px;padding:15px;color:var(--ink);font:inherit;outline:none}input:focus{border-color:var(--gold)}input.code-input{font-size:26px;font-weight:700;letter-spacing:5px}\nbutton{border:0;border-radius:12px;background:var(--gold);color:#151a1c;font:800 16px system-ui;min-height:52px;padding:12px 18px;cursor:pointer;touch-action:manipulation}button:disabled{opacity:.35;cursor:default}button.full{width:100%;margin-top:16px}.secondary{background:#294247;color:var(--ink)}.ghost{background:transparent;color:var(--muted);font-size:13px;min-height:36px;padding:8px}.danger{background:var(--red)}\n.players{display:grid;gap:9px}.player{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px}.player.active{border-color:var(--gold)}.avatar{width:35px;height:35px;display:grid;place-items:center;font-weight:900;border-radius:50%;background:var(--mint);color:#111}.player span{flex:1;font-weight:650}.player small{color:var(--muted)}\n.status{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-bottom:18px}.status b{color:var(--mint)}.card{background:#efe4cd;color:#252a2a;border:2px solid #d6b47d;box-shadow:0 8px 24px #0004;border-radius:16px;padding:25px;margin:18px 0;position:relative;overflow:hidden}.card:after{content:'FH';position:absolute;right:16px;bottom:5px;font-size:55px;font-weight:1000;opacity:.08}.card .eyebrow{color:#8a6228}.card p{color:#59615b}.card h2{font-size:28px}.private{font-size:12px;color:var(--mint);padding:12px 0}\n.weapon{width:100%;border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:14px;touch-action:pan-y;user-select:none}.weapon svg{display:block;width:100%;height:155px}.hint{font-size:13px;text-align:center;color:var(--muted);padding:6px}\n.cylinder{position:relative;width:248px;height:248px;margin:20px auto;border-radius:50%;background:radial-gradient(circle,#6c7779 0 12%,#36464b 13% 70%,#668084 71% 74%,#27373c 75%);border:3px solid #718184;box-shadow:0 10px 20px #0005;touch-action:pan-y}\n.slot{position:absolute;left:calc(50% + var(--x));top:calc(50% + var(--y));transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;border:2px solid #7a9296;background:#0b1215;display:grid;place-items:center;font-weight:800;color:#829399;min-height:0;padding:0}.slot.loaded{background:var(--gold);border-color:#ffe1a0;color:#252621}.slot.over{outline:4px solid var(--mint)}\n.ammo{display:flex;gap:10px;overflow:auto;padding:10px 2px 14px}.bullet{background:#26393f;border:1px solid #4c6569;min-width:77px;color:var(--ink);border-radius:12px;padding:12px 8px;font-size:12px;touch-action:none;user-select:none}.bullet.selected{border-color:var(--gold);background:#4c3b22}.bullet:before{content:'?';display:block;margin:0 auto 8px;border-radius:14px 14px 3px 3px;width:23px;height:36px;background:var(--gold);color:#332a1e;font-size:19px;line-height:34px;font-weight:900}\n.drag-ghost{position:fixed;width:55px;height:70px;background:var(--gold);border-radius:24px 24px 7px 7px;pointer-events:none;z-index:20;display:grid;place-items:center;color:#251c11;font-size:30px;box-shadow:0 8px 30px #0008;transform:translate(-50%,-65%)}\n.actions{display:grid;gap:10px}.target{display:flex;align-items:center;justify-content:space-between;width:100%;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-align:left}.target.selected{border-color:var(--red);background:#422b2b}.hand{display:flex;gap:8px;flex-wrap:wrap}.hand button{font-size:12px;min-height:40px;padding:10px;background:#263d41;color:var(--ink)}\n.toast{position:fixed;left:20px;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));max-width:480px;margin:auto;padding:15px 18px;background:#65312c;color:#fff5e7;border:1px solid #ff8675;border-radius:12px;z-index:30;box-shadow:0 8px 30px #0005}.network{color:#ffba76;font-size:13px;text-align:center;min-height:20px}.winner{font-size:66px;text-align:center;color:var(--gold);margin:12px}.center{text-align:center}.hidden{display:none}.personal-gun{margin:16px 0}.gun-owner{display:flex;justify-content:space-between;gap:12px;color:var(--gold);font-weight:700;font-size:13px;margin-bottom:10px}.personal-gun.waiting{opacity:.72}.weapon{margin-top:10px}.weapon svg{max-height:130px}footer{font-size:11px;color:#627577;text-align:center;padding-top:26px;letter-spacing:1px}\n.turn-active main{max-width:520px;padding:10px 14px 18px}.turn-active header,.turn-active #network,.turn-active footer{display:none}.turn-active .status{font-size:11px;margin:0 0 8px}.turn-active .card{margin:8px 0 12px;padding:14px 18px}.turn-active .card h2{margin:4px 0;font-size:20px}.turn-active .card p{margin:4px 0;font-size:13px}.turn-active .eyebrow{font-size:10px}.turn-active .cylinder{width:min(64vw,248px);height:min(64vw,248px);margin:12px auto}.turn-active .slot{width:44px;height:44px}.turn-active .ammo{padding:4px 2px 8px}.turn-active .bullet{min-width:68px;padding:8px 6px}.turn-active .full{margin-top:8px}.decision{display:grid;gap:12px;margin-top:20px}.decision button{min-height:64px;font-size:18px}.decision .secondary{border:1px solid var(--line)}\n@media(prefers-reduced-motion:no-preference){.card{animation:appear .25s ease-out}@keyframes appear{from{transform:translateY(8px);opacity:.2}to{transform:none;opacity:1}}}\n<\/style>\n<\/head>\n<body><main>\n<header><div><div class=\"brand\">FASTEST HAND<\/div><div class=\"tag\">CONTROLLER PERSONAL<\/div><\/div><div id=\"room\" class=\"code\">2D / LAN<\/div><\/header>\n<div id=\"network\" class=\"network\" role=\"status\" aria-live=\"polite\"><\/div>\n<section id=\"join\"><div class=\"eyebrow\">Un ecran. Patru adversari.<\/div><h1>La masă,<br>de pe telefon.<\/h1><p>Introdu codul afișat pe calculator. Telefonul și gazda trebuie să fie în aceeași rețea Wi-Fi.<\/p>\n<form id=\"join-form\"><label for=\"code\">Codul camerei<\/label><input id=\"code\" class=\"code-input\" inputmode=\"numeric\" maxlength=\"6\" autocomplete=\"off\" placeholder=\"000000\" required>\n<label for=\"name\">Numele tău<\/label><input id=\"name\" maxlength=\"18\" autocomplete=\"nickname\" placeholder=\"Cum te numești?\" required><button id=\"join-button\" class=\"full\" type=\"submit\">INTRĂ ÎN CAMERĂ →<\/button><\/form><\/section>\n<section id=\"game\" class=\"hidden\"><\/section><footer>FASTEST HAND · HTML<\/footer>\n<\/main><div id=\"toast\" class=\"toast hidden\" role=\"alert\"><\/div>\n<script>\n'use strict';\nconst $=s=>document.querySelector(s), storage={get(k){try{return localStorage.getItem('fhhtml:'+k)||''}catch{return ''}},set(k,v){try{localStorage.setItem('fhhtml:'+k,v)}catch{}}};\nlet token=storage.get('token'),state=null,busy=false,polling=false,dragging=false,selected='',renderKey='',toastTimer,failures=0;\nconst nonce=()=>Date.now().toString(36)+Math.random().toString(36).slice(2);\nconst escapeHtml=s=>String(s??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[c]));\nfunction toast(s){$('#toast').textContent=s;$('#toast').classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.add('hidden'),4500)}\nasync function request(url,data){const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),6000);try{const r=await fetch(url,{method:data?'POST':'GET',headers:data?{'Content-Type':'application/json'}:{},body:data?JSON.stringify(data):undefined,cache:'no-store',signal:controller.signal});return await r.json()}finally{clearTimeout(timeout)}}\nfunction logout(){token='';storage.set('token','');state=null;renderKey='';$('#join').classList.remove('hidden');$('#game').classList.add('hidden');$('#room').textContent='2D / LAN'}\n$('#code').value=new URLSearchParams(location.search).get('code')||storage.get('code');$('#name').value=storage.get('name');\n$('#join-form').addEventListener('submit',async e=>{e.preventDefault();if(busy)return;busy=true;$('#join-button').disabled=true;const code=$('#code').value.trim(),name=$('#name').value.trim();let id=storage.get('joinRequest');if(!id||storage.get('joinCode')!==code||storage.get('joinName')!==name){id=nonce();storage.set('joinRequest',id);storage.set('joinCode',code);storage.set('joinName',name)}try{const s=await request('/api/join',{code,name,token,requestId:id});if(!s.ok)throw Error(s.error||'Nu poți intra acum.');token=s.token;storage.set('token',token);storage.set('code',code);storage.set('name',name);storage.set('joinRequest','');state=s;render(true)}catch(e){toast(e.message==='Failed to fetch'?'Nu pot contacta gazda. Verifică Wi-Fi și Unity Play.':e.message)}finally{busy=false;$('#join-button').disabled=false}});\nasync function act(action,extra={}){if(busy||!token)return;busy=true;const data={token,action,requestId:nonce(),...extra};try{const s=await request('/api/action',data);if(!s.ok){toast(s.error||'Acțiunea nu a fost acceptată.');if(!s.players)return}state=s;render(true);if(navigator.vibrate)navigator.vibrate(18)}catch{toast('Conexiune întreruptă. Așteaptă actualizarea înainte de a încerca din nou.')}finally{busy=false}}\nasync function poll(){if(!token||polling||busy)return;polling=true;try{const s=await request('/api/state?token='+encodeURIComponent(token));if(!s.ok){logout();toast(s.error||'Intră din nou în cameră.');return}failures=0;$('#network').textContent='';state=s;render()}catch{failures++;$('#network').textContent='Gazda nu răspunde. Reconectare automată…'}finally{polling=false}}\nfunction playerList(players){return '<div class=\"players\">'+players.map((p,i)=>'<div class=\"player '+(p.name===state.activeName&&state.started?'active':'')+'\"><div class=\"avatar\" style=\"background:'+['#f4ac43','#63c5be','#c981ea','#f47b90'][i]+'\">'+(i+1)+'<\/div><span>'+escapeHtml(p.name)+(p.id===state.myId?' · TU':'')+'<\/span><small>'+(!p.connected?'offline':p.skip?'pauză '+p.skip:'pregătit')+'<\/small><\/div>').join('')+'<\/div>'}\nfunction targets(action){return '<div class=\"actions\">'+state.players.filter(p=>p.id!==state.myId).map(p=>'<button class=\"target '+(state.players[state.targetIndex]?.id===p.id?'selected':'')+'\" data-action=\"'+action+'\" data-target=\"'+escapeHtml(p.id)+'\">'+escapeHtml(p.name)+'<span>◎<\/span><\/button>').join('')+'<\/div>'}\nconst weapon='<div class=\"weapon\" id=\"weapon\"><svg viewBox=\"0 0 340 180\" aria-label=\"Revolver 2D\"><path fill=\"#92623c\" d=\"M98 105h55l-11 65H91z\"/><path fill=\"#96a8ab\" d=\"M115 53h202v42H160v31H90V67z\"/><path fill=\"#d4dddd\" d=\"M157 53h160v11H157z\"/><circle cx=\"132\" cy=\"89\" r=\"39\" fill=\"#3c5057\" stroke=\"#879a9e\" stroke-width=\"5\"/><g fill=\"#101719\"><circle cx=\"132\" cy=\"65\" r=\"9\"/><circle cx=\"153\" cy=\"77\" r=\"9\"/><circle cx=\"153\" cy=\"101\" r=\"9\"/><circle cx=\"132\" cy=\"113\" r=\"9\"/><circle cx=\"111\" cy=\"101\" r=\"9\"/><circle cx=\"111\" cy=\"77\" r=\"9\"/><\/g><circle cx=\"132\" cy=\"89\" r=\"6\" fill=\"#b7c6c8\"/><\/svg><div class=\"hint\" id=\"weapon-hint\"><\/div><\/div>';\nfunction turnPanel(){const s=state;let out='<div class=\"status\"><span>TURA '+s.turn+' · '+escapeHtml(s.myName)+'<\/span><b>ESTE TURA TA<\/b><\/div>';\n if(s.stage==='draw'){out+='<div class=\"eyebrow\">01 / Cartonaș<\/div><h1>Ce îți rezervă<br>această tură?<\/h1><p>Trage un cartonaș secret sau folosește unul din mâna ta.<\/p><button class=\"full\" data-action=\"draw\">TRAGE CARTONAȘUL<\/button>';if(s.hand.length)out+='<div class=\"panel\"><p>Cartonașe păstrate<\/p><div class=\"hand\">'+s.hand.map(c=>'<button data-action=\"useCard\" data-bullet=\"'+escapeHtml(c)+'\">'+escapeHtml(c)+'<\/button>').join('')+'<\/div><\/div>';return out}\n out+='<div class=\"card\"><div class=\"eyebrow\">Cartonașul tău<\/div><h2>'+escapeHtml(s.card)+'<\/h2><p>'+escapeHtml(s.cardText)+'<\/p><\/div>';\n if(s.privateInfo)out+='<div class=\"private\">'+escapeHtml(s.privateInfo)+'<\/div>';\n if(s.stage==='cardTarget')return out+'<h2>Alege adversarul<\/h2>'+targets('applyCard');\n if(s.stage==='load'){out+='<div class=\"eyebrow\">Roata · '+s.loaded+' din '+s.required+'<\/div><div class=\"cylinder\" id=\"cylinder\">';for(let i=0;i<6;i++){let a=(i*60-90)*Math.PI/180;out+='<button class=\"slot '+(s.chambers[i]?'loaded':'')+'\" data-slot=\"'+i+'\" aria-label=\"Camera '+(i+1)+(s.chambers[i]?' încărcată':' liberă')+'\" style=\"--x:'+(Math.cos(a)*77)+'px;--y:'+(Math.sin(a)*77)+'px\">'+(s.chambers[i]?'●':i+1)+'<\/button>'}out+='<\/div><div class=\"ammo\">'+s.ammo.map(b=>'<button class=\"bullet '+(selected===b.id?'selected':'')+'\" data-ammo=\"'+escapeHtml(b.id)+'\">'+escapeHtml(b.label)+'<\/button>').join('')+'<\/div><button class=\"full\" data-action=\"close\" '+(s.loaded!==s.required?'disabled':'')+'>GATA →<\/button>';return out}\n if(s.stage==='decision')return '<div class=\"status\"><span>ROATA ESTE ÎNCĂRCATĂ<\/span><\/div><div class=\"decision\"><button data-action=\"chooseShoot\">TRAGE<\/button><button class=\"secondary\" data-action=\"skip\">SKIP<\/button><\/div>';\n if(s.stage==='aim')return '<div class=\"status\"><span>ALEGE ȚINTA<\/span><\/div>'+targets('target')+'<button class=\"full danger\" data-action=\"shoot\" '+(s.targetIndex<0?'disabled':'')+'>CONFIRMĂ ȘI TRAGE<\/button>';\n return out+'<div class=\"panel\"><h2>'+escapeHtml(s.message)+'<\/h2><p>Următoarea tură începe automat.<\/p><\/div>';\n}\nfunction render(force=false){if(!state||dragging)return;const s=state;document.body.classList.toggle('turn-active',Boolean(s.isTurn&&s.started));$('#join').classList.add('hidden');$('#game').classList.remove('hidden');$('#room').textContent=s.code;\nconst key=JSON.stringify([s.stage,s.turn,s.activeName,s.isTurn,s.card,s.privateInfo,s.ammo,s.chambers,s.loaded,s.targetIndex,s.players,s.message,s.hand]);if(!force&&renderKey===key)return;renderKey=key;\nif(s.ammo.length&&!s.ammo.some(b=>b.id===selected))selected=s.ammo[0].id;\nlet out='';if(s.stage==='menu')out='<div class=\"eyebrow\">Camera este închisă<\/div><h1>Gazda este<br>în meniu.<\/h1><p>Așteaptă să apese Play. Vei reveni automat în lobby.<\/p>'+playerList(s.players);else if(s.stage==='lobby')out='<div class=\"eyebrow\">Ești conectat<\/div><h1>Salut, '+escapeHtml(s.myName)+'.<\/h1><p>Gazda pornește partida de pe calculator când sunt 2–4 jucători.<\/p>'+playerList(s.players)+'<div class=\"panel\"><p>Cartonașele se văd aici. Urmărește mutările pe ecranul comun.<\/p><\/div>';\nelse if(s.stage==='finished')out='<div class=\"winner\">★<\/div><div class=\"eyebrow center\">Partida s-a terminat<\/div><h1 class=\"center\">'+escapeHtml(s.winner)+'<br>a câștigat!<\/h1><p class=\"center\">Primul glonț adevărat. Gazda poate porni o nouă partidă.<\/p>'+playerList(s.players);\nelse if(s.isTurn)out=turnPanel();else out='<div class=\"eyebrow\">Tura '+s.turn+'<\/div><h1>Acum joacă<br>'+escapeHtml(s.activeName)+'.<\/h1><p>Telefonul tău se activează când îți vine rândul.<\/p>';\n$('#game').innerHTML=out;\n$('#weapon')?.querySelectorAll('svg g circle').forEach((c,i)=>c.setAttribute('fill',s.isTurn&&s.chambers[i]?'#f4ac43':'#101719'));\n$('#game').querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>act(b.dataset.action,{target:b.dataset.target||'',bullet:b.dataset.bullet||''})));\n$('#game').querySelectorAll('[data-slot]').forEach(b=>b.addEventListener('click',()=>{if(suppressClick)return;let slot=Number(b.dataset.slot);if(s.chambers[slot])act('unload',{slot});else if(selected)act('load',{slot,bullet:selected});else toast('Alege mai întâi un glonț.')}));\n$('#game').querySelectorAll('[data-ammo]').forEach(attachDrag);\nconst zone=s.stage==='load'?$('#cylinder'):null;if(s.isTurn&&zone)attachSwipe(zone);\n}\nlet suppressClick=false;\nfunction attachDrag(button){let startX=0,startY=0,ghost=null,moved=false;\nbutton.addEventListener('click',()=>{if(suppressClick)return;selected=button.dataset.ammo;render(true)});\nbutton.addEventListener('pointerdown',e=>{if(busy)return;e.stopPropagation();selected=button.dataset.ammo;startX=e.clientX;startY=e.clientY;moved=false;dragging=true;button.setPointerCapture(e.pointerId)});\nbutton.addEventListener('pointermove',e=>{if(!dragging)return;if(Math.hypot(e.clientX-startX,e.clientY-startY)>8){moved=true;if(!ghost){ghost=document.createElement('div');ghost.className='drag-ghost';ghost.textContent='?';document.body.append(ghost)}ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';document.querySelectorAll('.slot').forEach(x=>x.classList.remove('over'));document.elementFromPoint(e.clientX,e.clientY)?.closest('.slot')?.classList.add('over')}});\nfunction finish(e,cancel=false){if(!dragging)return;dragging=false;ghost?.remove();ghost=null;document.querySelectorAll('.slot').forEach(x=>x.classList.remove('over'));if(moved){suppressClick=true;setTimeout(()=>suppressClick=false,100);if(!cancel){const slot=document.elementFromPoint(e.clientX,e.clientY)?.closest('.slot');if(slot&&!state.chambers[Number(slot.dataset.slot)]){act('load',{slot:Number(slot.dataset.slot),bullet:selected});return}}}render(true)}\nbutton.addEventListener('pointerup',e=>finish(e));button.addEventListener('pointercancel',e=>finish(e,true));}\nfunction attachSwipe(zone){let x=0,y=0,down=false;zone.addEventListener('pointerdown',e=>{if(e.target.closest('.slot'))return;x=e.clientX;y=e.clientY;down=true});zone.addEventListener('pointerup',e=>{if(!down)return;down=false;let dx=e.clientX-x,dy=e.clientY-y;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)&&dx>0&&state.stage==='load')act('close')});zone.addEventListener('pointercancel',()=>down=false)}\nsetInterval(poll,600);document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll()});if(token)poll();\n<\/script><\/body><\/html>\n";
+if(new URLSearchParams(location.search).get('controller')==='1'||location.pathname==='/controller'||location.pathname==='/controller.html'){
+ setTimeout(()=>{document.open();document.write(CONTROLLER_HTML);document.close();},0);
+}else{
+(function(){
+// ===== REGULILE JOCULUI (JavaScript în browser, mod demo) =====
+function randomInt(max){const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%max;}
+function randomUUID(){if(crypto.randomUUID)return crypto.randomUUID();const a=new Uint8Array(16);crypto.getRandomValues(a);return Array.from(a,n=>n.toString(16).padStart(2,'0')).join('');}
+
+const DECK = ['+1 glonț', '+2 gloanțe', '+3 gloanțe', '−1 glonț', 'Schimb', 'Fură', 'Mystery Bullet', 'Reverse', 'Sudden Death', 'Steal', 'Skip Turn', 'Double Risk', 'Reveal', 'Steal Card'];
+const targeted = new Set(['Schimb', 'Fură', 'Steal', 'Skip Turn', 'Reveal', 'Steal Card']);
+const ordinary = card => card.startsWith('+') || card.startsWith('−');
+function description(card) {
+  return ({
+    '+1 glonț':'Încarci 2 gloanțe în această tură.', '+2 gloanțe':'Încarci 3 gloanțe în această tură.',
+    '+3 gloanțe':'Încarci 4 gloanțe în această tură.', '−1 glonț':'Pierzi un glonț din rezervă; încarci unul.',
+    'Schimb':'Schimbi câte un glonț aleatoriu cu adversarul ales.', 'Fură':'Iei un cartonaș obișnuit din mâna adversarului.',
+    'Mystery Bullet':'Primești un glonț cu efect ascuns și încarci unul.',
+    'Reverse':'Efectul următorului glonț special revine la cel care trage.',
+    'Sudden Death':'La următoarea împușcătură, un glonț încărcat devine adevărat.',
+    'Steal':'Furi un glonț aleatoriu din rezerva adversarului.', 'Skip Turn':'Adversarul ales pierde următoarea tură.',
+    'Double Risk':'Dacă următoarea împușcătură este goală sau oarbă, pierzi două ture.',
+    'Reveal':'Vezi în privat numărul gloanțelor adversarului.', 'Steal Card':'Iei un cartonaș special din mâna adversarului.'
+  })[card] || 'Trage un cartonaș pentru a începe tura.';
+}
+
+// Regulile se execută numai pe server. Browserul trimite intenții și primește starea permisă.
+class Rules {
+  constructor(rng = max => randomInt(max)) {
+    this.rng=rng; this.code=String(100000+rng(900000)); this.players=[]; this.history=[];
+    this.cylinder=Array(6).fill(null); this.stage='lobby'; this.active=0; this.turn=0;
+    this.card=''; this.message='Așteptăm 2–4 jucători.'; this.winner=''; this.privateInfo='';
+    this.required=1; this.targetIndex=-1; this.reverse=false; this.sudden=false; this.doubleRisk=false;
+    this.recent=new Map(); this.resultAt=0;
+  }
+  get current() {return this.players[this.active] || null;}
+  get loaded() {return this.cylinder.filter(Boolean).length;}
+  get started() {return this.stage !== 'lobby';}
+  authenticate(token) {return typeof token==='string' && token ? this.players.find(p=>p.token===token) : null;}
+  bullet(mystery=true) {
+    const n=this.rng(100);
+    return {id:randomUUID(),kind:n<12?'Real':n<55?'Blank':n<80?'Smoke':'Shock',mystery};
+  }
+  log(message) {this.message=message; this.history.unshift(message); this.history.length=Math.min(this.history.length,30);}
+  join(code,name,local=false,now=Date.now()) {
+    if(code!==this.code)return {error:'Codul camerei este greșit.'};
+    if(this.started)return {error:'Partida a început. Așteaptă revenirea în lobby.'};
+    if(this.players.length>=4)return {error:'Camera are deja 4 jucători.'};
+    name=String(name??'').replace(/[\u0000-\u001f\u007f]/g,'').trim().slice(0,18);
+    if(!name)return {error:'Scrie un nume.'};
+    if(this.players.some(p=>p.name.toLocaleLowerCase()===name.toLocaleLowerCase()))return {error:'Numele este deja folosit.'};
+    const player={id:randomUUID(),token:randomUUID(),name,local,lastSeen:now,ammo:[],cards:[],skip:0,wins:0};
+    this.players.push(player);this.log(name+' a intrat în cameră.');return {player};
+  }
+  start() {
+    if(!['lobby','finished'].includes(this.stage))return 'Partida este deja pornită.';
+    if(this.players.length<2||this.players.length>4)return 'Ai nevoie de 2–4 jucători.';
+    for(const p of this.players){p.ammo=Array.from({length:6},()=>this.bullet());p.cards=['+1 glonț','Reveal'];p.skip=0;}
+    this.cylinder.fill(null);this.active=this.rng(this.players.length);this.turn=1;this.winner='';this.card='';this.privateInfo='';
+    this.reverse=this.sudden=this.doubleRisk=false;this.targetIndex=-1;this.required=1;this.stage='draw';this.resultAt=0;this.recent.clear();
+    this.log('Partida începe. Este tura lui '+this.current.name+'.');return '';
+  }
+  lobby() {
+    this.stage='lobby';this.winner=this.card=this.privateInfo='';this.active=0;this.targetIndex=-1;this.cylinder.fill(null);this.recent.clear();this.resultAt=0;
+    this.log('Camera este deschisă. Jucătorii pot intra.');
+  }
+  remove(id) {
+    if(this.stage!=='lobby')return 'Poți elimina jucători doar în lobby.';
+    const i=this.players.findIndex(p=>p.id===id);if(i<0)return 'Jucător necunoscut.';
+    const [p]=this.players.splice(i,1);this.log(p.name+' a ieșit.');return '';
+  }
+  act(cmd, now=Date.now()) {
+    const p=this.authenticate(cmd?.token);if(!p)return 'Sesiune necunoscută. Intră din nou.';
+    const key=p.id+':'+String(cmd.requestId??'');
+    if(cmd.requestId&&this.recent.has(key))return this.recent.get(key);
+    const error=this.apply(p,cmd,now);
+    if(cmd.requestId){this.recent.set(key,error);while(this.recent.size>256)this.recent.delete(this.recent.keys().next().value);}
+    return error;
+  }
+  apply(p,cmd,now) {
+    if(['lobby','finished'].includes(this.stage))return 'Partida nu este în desfășurare.';
+    if(p!==this.current)return 'Așteaptă tura ta.';
+    const slot=cmd.slot;
+    switch(cmd.action){
+      case 'draw':case 'useCard':
+        if(this.stage!=='draw')return 'Ai deja un cartonaș pentru această tură.';
+        if(cmd.action==='useCard'){
+          const i=p.cards.indexOf(cmd.bullet);if(i<0)return 'Nu ai acest cartonaș în mână.';
+          this.card=p.cards.splice(i,1)[0];
+        }else this.card=DECK[this.rng(DECK.length)];
+        this.privateInfo='';if(targeted.has(this.card))this.stage='cardTarget';else this.resolve(null);
+        this.log(p.name+' a tras un cartonaș secret.');return '';
+      case 'applyCard':{
+        if(this.stage!=='cardTarget')return 'Cartonașul nu așteaptă o țintă.';
+        const other=this.players.find(x=>x.id===cmd.target);if(!other||other===p)return 'Alege un adversar.';
+        this.resolve(other);return '';
+      }
+      case 'take':
+      case 'open':
+        return 'Roata este pregătită automat după cartonaș.';
+      case 'load':{
+        if(this.stage!=='load')return 'Deschide roata înainte de încărcare.';
+        if(!Number.isInteger(slot)||slot<0||slot>=6||this.cylinder[slot])return 'Alege un loc liber.';
+        if(this.loaded>=this.required)return 'Ai încărcat toate gloanțele cerute.';
+        const i=p.ammo.findIndex(b=>b.id===cmd.bullet);if(i<0)return 'Glonțul nu este în rezerva ta.';
+        this.cylinder[slot]=p.ammo.splice(i,1)[0];return '';
+      }
+      case 'unload':
+        if(this.stage!=='load'||!Number.isInteger(slot)||slot<0||slot>=6||!this.cylinder[slot])return 'Nu poți scoate glonțul acum.';
+        p.ammo.push(this.cylinder[slot]);this.cylinder[slot]=null;return '';
+      case 'close':
+        if(this.stage!=='load')return 'Roata nu este deschisă.';
+        if(this.loaded!==this.required)return 'Încarcă exact '+this.required+' gloanțe.';
+        this.stage='decision';this.log(p.name+' a încărcat roata.');return '';
+      case 'skip':
+        if(this.stage!=='decision')return 'Alege după ce ai încărcat roata.';
+        this.stage='result';this.resultAt=now;this.log(p.name+' a dat skip.');return '';
+      case 'chooseShoot':
+        if(this.stage!=='decision')return 'Alege după ce ai încărcat roata.';
+        this.stage='aim';this.targetIndex=-1;this.log(p.name+' a ales să tragă.');return '';
+      case 'target':{
+        if(this.stage!=='aim')return 'Închide roata înainte să alegi ținta.';
+        const i=this.players.findIndex(x=>x.id===cmd.target&&x!==p);
+        if(i<0)return 'Alege un adversar.';this.targetIndex=i;return '';
+      }
+      case 'shoot':
+        if(this.stage!=='aim'||this.targetIndex<0||!this.players[this.targetIndex]||this.players[this.targetIndex]===p)return 'Alege ținta înainte să tragi.';
+        this.shoot(now);return '';
+      case 'next':
+        if(this.stage!=='result')return 'Încă nu s-a terminat tura.';this.next();return '';
+      default:return 'Acțiune necunoscută.';
+    }
+  }
+  resolve(other) {
+    const p=this.current;this.required=1;
+    switch(this.card){
+      case '+1 glonț':this.required=2;break;case '+2 gloanțe':this.required=3;break;case '+3 gloanțe':this.required=4;break;
+      case '−1 glonț':if(p.ammo.length)p.ammo.splice(this.rng(p.ammo.length),1);break;
+      case 'Mystery Bullet':p.ammo.push(this.bullet());break;
+      case 'Reverse':this.reverse=true;break;case 'Sudden Death':this.sudden=true;break;case 'Double Risk':this.doubleRisk=true;break;
+      case 'Skip Turn':other.skip++;break;
+      case 'Reveal':this.privateInfo=other.name+' are '+other.ammo.length+' gloanțe în rezervă.';break;
+      case 'Steal':if(other.ammo.length)p.ammo.push(other.ammo.splice(this.rng(other.ammo.length),1)[0]);else this.privateInfo='Adversarul nu are gloanțe.';break;
+      case 'Schimb':
+        if(p.ammo.length&&other.ammo.length){const a=this.rng(p.ammo.length),b=this.rng(other.ammo.length);[p.ammo[a],other.ammo[b]]=[other.ammo[b],p.ammo[a]];}else this.privateInfo='Schimbul nu este posibil: o rezervă este goală.';break;
+      case 'Fură':case 'Steal Card':{
+        const options=other.cards.filter(c=>ordinary(c)===(this.card==='Fură'));
+        if(options.length&&p.cards.length<6){const card=options[this.rng(options.length)];other.cards.splice(other.cards.indexOf(card),1);p.cards.push(card);this.privateInfo='Ai luat: '+card;}
+        else this.privateInfo='Nu există un cartonaș potrivit sau mâna ta este plină.';break;
+      }
+    }
+    while(p.ammo.length<this.required)p.ammo.push(this.bullet());this.stage='load';
+  }
+  shoot(now) {
+    const index=this.rng(6),shot=this.cylinder[index];
+    if(this.sudden){const loaded=this.cylinder.filter(Boolean);loaded[this.rng(loaded.length)].kind='Real';}
+    const affected=this.reverse?this.current:this.players[this.targetIndex];let result;
+    const miss=!shot||shot.kind==='Blank';
+    if(!shot)result='CLICK! Cameră goală.';
+    else if(shot.kind==='Real'){this.winner=this.current.name;this.current.wins++;this.stage='finished';result='BANG! '+this.winner+' a tras glonțul adevărat și câștigă!';}
+    else if(shot.kind==='Smoke'){affected.skip++;result='PUF! '+affected.name+' pierde o tură din cauza fumului.';}
+    else if(shot.kind==='Shock'){if(affected.ammo.length)affected.ammo.splice(this.rng(affected.ammo.length),1);result='ZAP! '+affected.name+' pierde un glonț din rezervă.';}
+    else result='POC! Glonț orb. Partida continuă.';
+    if(miss&&this.doubleRisk){this.current.skip+=2;result+=' Double Risk: pierzi două ture.';}
+    for(let i=0;i<6;i++){if(this.cylinder[i]&&i!==index)this.current.ammo.push(this.cylinder[i]);this.cylinder[i]=null;}
+    if(this.stage!=='finished')this.stage='result';this.resultAt=now;this.reverse=this.sudden=this.doubleRisk=false;this.log(result);
+  }
+  next() {
+    let guard=0;
+    do{this.active=(this.active+1)%this.players.length;if(!this.current.skip)break;this.current.skip--;this.log(this.current.name+' pierde această tură.');guard++;}while(guard<100);
+    this.turn++;this.stage='draw';this.card=this.privateInfo='';this.targetIndex=-1;this.required=1;this.resultAt=0;
+    while(this.current.ammo.length<4)this.current.ammo.push(this.bullet());this.log('Tura '+this.turn+': '+this.current.name+'.');
+  }
+  view(token,now=Date.now()) {
+    const me=this.authenticate(token),mine=Boolean(me&&me===this.current&&this.started);
+    return {
+      ok:Boolean(me),token:me?.token||'',code:this.code,started:this.started,stage:this.stage,isTurn:mine,canStart:this.players.length>=2&&this.stage==='lobby',
+      turn:this.turn,activeName:this.current?.name||'',myId:me?.id||'',myName:me?.name||'',card:mine?this.card:'',cardText:mine?description(this.card):'',
+      privateInfo:mine?this.privateInfo:'',message:this.message,winner:this.winner,required:mine?this.required:0,loaded:this.loaded,targetIndex:mine?this.targetIndex:-1,
+      reverse:mine&&this.reverse,sudden:mine&&this.sudden,doubleRisk:mine&&this.doubleRisk,
+      players:this.players.map(p=>({id:p.id,name:p.name,ammo:-1,skip:p.skip,wins:p.wins,connected:p.local||now-p.lastSeen<8000,local:p.local})),
+      ammo:me?me.ammo.map(b=>({id:b.id,label:b.mystery?'Mister':({Real:'Adevărat',Smoke:'Fum',Shock:'Șoc',Blank:'Orb'})[b.kind]})):[],
+      hand:me?[...me.cards]:[],chambers:this.cylinder.map(b=>b?'•':'')
+    };
+  }
+}
+
+// ===== MOD DEMO LOCAL / LEGĂTURA CU SERVERUL LAN =====
+const localDemo = !new URLSearchParams(location.search).has('host')&&!new URLSearchParams(location.search).has('lan');
+let demoRules=new Rules(),demoScreen='menu',demoSettings={volume:.7,resultDelay:4},selectedController='',showJoin=false;
+function demoHostView(){
+ const view=demoRules.view(null);delete view.token;
+ return {...view,ok:true,screen:demoScreen,settings:{...demoSettings},targetIndex:demoRules.targetIndex,required:demoRules.required,
+  activeId:demoRules.current?.id||'',addresses:[],localView:null,history:demoRules.history.slice(0,5)};
+}
+function demoPhoneView(token){const v=demoRules.view(token);if(demoScreen==='menu'){v.stage='menu';v.started=v.isTurn=v.canStart=false;}return v;}
+function demoRequest(path,data){
+ if(path==='/api/host/state')return demoHostView();
+ if(path==='/api/host/action'){
+  let error='';switch(data.action){
+   case 'lobby':demoRules.lobby();demoScreen='lobby';showJoin=false;break;
+   case 'menu':demoRules.lobby();demoScreen='menu';showJoin=false;break;
+   case 'start':error=demoRules.start();if(!error){demoScreen='match';showJoin=false;selectedController=demoRules.current.id;}break;
+   case 'addLocal':error=demoRules.join(demoRules.code,data.name,true).error||'';break;
+   case 'remove':error=demoRules.remove(data.id);break;
+   case 'settings':demoSettings={volume:Math.min(1,Math.max(0,data.volume)),resultDelay:Math.min(8,Math.max(2,data.resultDelay))};break;
+   case 'control':error=demoRules.act({...data.command,token:demoRules.current?.token});break;
+   default:error='Acțiune necunoscută.';
+  }return {...demoHostView(),ok:!error,error};
+ }return {ok:false,error:'Comandă necunoscută.'};
+}
+window.FastestHandDemo={
+ async phoneRequest(path,data){
+  let view;
+  if(path.startsWith('/api/state')){const token=new URL(path,'http://demo').searchParams.get('token');view=demoPhoneView(token);if(!view.ok)return {ok:false,error:'Sesiune expirată.'};}
+  else if(path==='/api/join'){
+   if(demoScreen!=='lobby')return {ok:false,error:'Gazda trebuie să deschidă lobby-ul.'};
+   let player=demoRules.authenticate(data.token);if(!player){const r=demoRules.join(data.code,data.name,true);if(r.error)return {ok:false,error:r.error};player=r.player;}
+   view=demoPhoneView(player.token);
+  }else if(path==='/api/action'){
+   const error=demoScreen==='match'?demoRules.act(data):'Așteaptă pornirea partidei.';
+   view={...demoPhoneView(data.token),ok:!error,error};
+  }else return {ok:false,error:'Adresă necunoscută.'};
+  state=demoHostView();render();return structuredClone(view);
+ }
+};
+function controllerDock(join=false){
+ const options=demoRules.players.map(p=>'<option value="'+esc(p.id)+'" '+(p.id===selectedController?'selected':'')+'>'+esc(p.name)+'</option>').join('');
+ return '<aside class="controller-dock '+(join?'demo-join':'')+'"><h2>'+(join?'Intră cu codul camerei':'Controller personal')+'</h2>'+(join?'':'<label for="controller-player">Jucătorul afișat</label><select id="controller-player">'+options+'</select>')+'<iframe id="phone-frame" title="Controllerul jucătorului Fastest Hand"></iframe><p class="hint">'+(join?'Introdu codul și numele ca să intri în această partidă demo.':'În demo, poți schimba controllerul și vedea comenzile fiecărui jucător.')+'</p></aside>';
+}
+let mountedFrame=null,mountedPlayer='',controllerLastActive='';
+function mountController(force=false){
+ const frame=document.getElementById('phone-frame');if(!frame)return;
+ const player=demoRules.players.find(p=>p.id===selectedController);
+ const id=showJoin?'join':player?.id||'join';
+ if(!force&&frame===mountedFrame&&id===mountedPlayer)return;
+ mountedFrame=frame;mountedPlayer=id;
+ let html=CONTROLLER_HTML.replace('min-height:100dvh','min-height:0');
+ // Each simulated phone receives its own session instead of sharing browser storage.
+ html=html.replace(/storage=\{get\(k\)\{try\{return localStorage[\s\S]*?\};/, 'storage={get(k){return window.fhSession[k]||\'\'},set(k,v){window.fhSession[k]=v}};');
+ html=html.replace(/async function request\(url,data\)\{[\s\S]*?\nfunction logout/, 'async function request(url,data){return parent.FastestHandDemo.phoneRequest(url,data)}\nfunction logout');
+ const session=showJoin?{code:'',name:''}:{token:player?.token||'',code:demoRules.code,name:player?.name||''};
+ const bootstrap='<script>window.fhSession='+JSON.stringify(session).replaceAll('<','\\u003c')+';<\/script>';
+ frame.onload=()=>{
+  frame._sizeObserver?.disconnect();
+  const resize=()=>{const doc=frame.contentDocument;if(doc?.body)frame.style.height=Math.max(500,doc.body.scrollHeight+20)+'px';};
+  frame._sizeObserver=new ResizeObserver(resize);frame._sizeObserver.observe(frame.contentDocument.body);resize();
+ };
+ frame.srcdoc=html.replace('<body>', '<body>'+bootstrap);
+}
+setInterval(()=>{
+ if(localDemo&&demoScreen==='match'&&demoRules.stage==='result'&&Date.now()-demoRules.resultAt>=demoSettings.resultDelay*1000){demoRules.next();state=demoHostView();render();}
+},100);
+
+'use strict';
+const $=s=>document.querySelector(s),colors=['#f4ac43','#63c5be','#c981ea','#f47b90'];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function storage(key,value){try{if(value!==undefined)localStorage.setItem(key,value);return localStorage.getItem(key)||'';}catch{return '';}}
+const params=new URLSearchParams(location.search);
+let key=params.get('host')||(params.has('lan')?sessionStorage.getItem('fh-host-key'):'')||'';
+if(params.has('host')){sessionStorage.setItem('fh-host-key',key);history.replaceState(null,'',location.pathname+'?lan=1');}
+let state=null,screen='menu',busy=false,polling=false,renderKey='',localName='Jucător 1',audio=null,volume=.7,lastResult='',closed=false,sceneObserver=null;
+function toast(message){$('#error').textContent=message;$('#error').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('#error').hidden=true,5000);}
+async function request(path,data){
+ if(localDemo)return structuredClone(demoRequest(path,data));
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),5000);
+ try{const r=await fetch(path,{method:data?'POST':'GET',headers:{'X-Host-Key':key,...(data?{'Content-Type':'application/json'}:{})},body:data?JSON.stringify(data):undefined,cache:'no-store',signal:controller.signal});return await r.json();}
+ finally{clearTimeout(timer);}
+}
+function sound(bang=false){
+ try{if(!audio)audio=new (window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.type=bang?'sawtooth':'sine';o.frequency.setValueAtTime(bang?160:550,audio.currentTime);o.frequency.exponentialRampToValueAtTime(40,audio.currentTime+.15);g.gain.setValueAtTime(Math.max(.001,volume*(bang?.18:.04)),audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.2);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+.21);}catch{}
+}
+async function act(action,extra={}){
+ if(busy)return;busy=true;sound();
+ try{const s=await request('/api/host/action',{action,...extra});if(!s.ok){toast(s.error||'Acțiunea nu a fost acceptată.');return;}state=s;volume=s.settings.volume;
+  if(action==='lobby'||action==='menu'||action==='start')screen=s.screen;
+  if(action==='addLocal')localName='Jucător '+(s.players.length+1);
+  render(true);
+ }catch{toast('Serverul nu răspunde. Verifică terminalul VS Code.');}finally{busy=false;}
+}
+async function poll(){
+ if((!key&&!localDemo)||polling||busy||closed)return;polling=true;
+ try{const s=await request('/api/host/state');if(busy)return;if(!s.ok){$('#network').textContent=s.error;return;}
+  if(!state||state.screen!==s.screen)screen=s.screen;
+  state=s;volume=s.settings.volume;$('#network').textContent='';
+  const result=s.stage+':'+s.turn+':'+s.message;if(['result','finished'].includes(s.stage)&&lastResult!==result){sound(s.stage==='finished');lastResult=result;}
+  render();
+ }catch{$('#network').textContent='Serverul nu răspunde. Reconectare automată…';}finally{polling=false;}
+}
+function roster(){
+ return '<div class="players">'+Array.from({length:4},(_,i)=>{const p=state.players[i];return '<div class="player '+(p?'':'empty')+'"><div class="avatar" style="background:'+colors[i]+'">'+(i+1)+'</div><div class="player-name"><b>'+esc(p?.name||'Loc liber')+'</b><small>'+(!p?'Așteptăm un jucător':p.local?'TEST PE PC':p.connected?'CONECTAT':'DECONECTAT')+'</small></div>'+(p?'<button class="ghost" data-action="remove" data-id="'+esc(p.id)+'" aria-label="Elimină '+esc(p.name)+'">×</button>':'')+'</div>';}).join('')+'</div>';
+}
+function menu(){return '<div class="layout"><section class="panel menu-panel"><div class="eyebrow">UN ECRAN. PATRU ADVERSARI.</div><h1>Cine are mâna<br>cea mai rapidă?</h1><p>Cartonașe secrete, gloanțe misterioase și câte un telefon pentru fiecare jucător.</p><button class="full play" data-action="lobby">PLAY</button><div class="actions"><button class="secondary" data-screen="settings">SETTINGS</button><button class="secondary" data-screen="help">CUM SE JOACĂ</button></div><button class="full ghost" data-close>QUIT</button></section><section class="menu-art"><canvas id="scene" role="img" aria-label="Două personaje cowboy cu revolvere"></canvas><p>Primul jucător care trage glonțul adevărat câștigă.</p></section></div>';}
+function settings(){const saved=state.settings;return '<section class="panel settings-panel"><div class="eyebrow">PERSONALIZEAZĂ JOCUL</div><h1>Settings</h1><form id="settings-form"><label for="volume">Volum sunete: <output id="volume-value">'+Math.round(saved.volume*100)+'%</output></label><input id="volume" type="range" min="0" max="100" value="'+Math.round(saved.volume*100)+'"><label for="delay">Pauză între ture: <output id="delay-value">'+saved.resultDelay+' secunde</output></label><input id="delay" type="range" min="2" max="8" step=".5" value="'+saved.resultDelay+'"><button type="button" class="full secondary" data-fullscreen>FULLSCREEN</button><button class="full" type="submit">SALVEAZĂ ȘI ÎNAPOI</button></form></section>';}
+function help(){return '<section class="panel help-panel"><div class="eyebrow">REGULILE MESEI</div><h1>Cum se joacă</h1><p>1. Apasă Play pentru a deschide lobby-ul.</p><p>2. Pe telefon, deschide adresa PC-ului și introdu codul camerei și numele tău.</p><p>3. Gazda apasă Start Game când sunt 2–4 jucători.</p><p>4. La tura ta: vezi cartonașul și roata, încarcă gloanțele, apoi alege Trage sau Skip.</p><p>5. Gloanțele pot fi oarbe, fum, șoc sau adevărate. Primul glonț adevărat câștigă!</p><p class="hint">Pe telefon apar doar cartonașul, roata și gloanțele în faza de încărcare.</p><button class="full" data-screen="menu">ÎNAPOI LA MENIU</button></section>';}
+function lobby(){return '<div class="lobby-heading"><h1>Lobby room</h1><button class="secondary" data-action="menu">ÎNAPOI LA MENIU</button></div><div class="layout"><section class="panel"><div class="eyebrow">CODUL CAMEREI</div><div class="big-code">'+esc(state.code)+'</div><p>Introdu codul camerei și numele tău în controller.</p>'+(localDemo?'<p class="hint">DEMO PE ACEST PC · Intrarea prin cod poate fi testată în controllerul de mai jos.</p>':'')+state.addresses.map(a=>'<div class="address"><a href="'+esc(a)+'" target="_blank" rel="noopener">'+esc(a)+'</a><button class="secondary" data-copy="'+esc(a)+'">Copiază</button></div>').join('')+'<p class="hint">Telefoanele reale se conectează numai în modul LAN, cu server pornit.</p><div class="actions"><button class="play" data-action="start" '+(state.players.length<2?'disabled':'')+'>START GAME</button><button class="secondary" data-phone>Intră cu codul</button></div></section><section><h2>Jucători '+state.players.length+'/4</h2>'+roster()+'<form id="local-form" class="local-form"><input id="local-name" aria-label="Numele jucătorului PC" maxlength="18" value="'+esc(localName)+'"><button type="submit" class="secondary" '+(state.players.length>=4?'disabled':'')+'>Adaugă jucător</button></form></section></div>';}
+function commandButton(label,action,attributes='',disabled=false){return '<button data-command="'+action+'" '+attributes+' '+(disabled?'disabled':'')+'>'+esc(label)+'</button>';}
+function localControls(){
+ if(localDemo)return '';
+ const s=state.localView;if(!s||state.stage==='finished')return '<p class="hint">Comenzile sunt pe telefonul jucătorului activ.</p>';
+ let out='<section class="test-controls"><h2>TEST PC · '+esc(s.myName)+'</h2><p class="hint">În acest mod, cartonașul jucătorului PC este vizibil pe ecranul comun.</p>';
+ if(s.card)out+='<p class="private-card">'+esc(s.card)+' — '+esc(s.cardText)+'</p>';
+ if(s.privateInfo)out+='<p>'+esc(s.privateInfo)+'</p>';
+ out+='<div class="actions">';
+ if(s.stage==='draw'){out+=commandButton('TRAGE CARTONAȘUL','draw');for(const c of s.hand)out+=commandButton(c,'useCard','data-bullet="'+esc(c)+'"');}
+ if(s.stage==='load'){
+  out+='</div><label for="ammo-select">Glonț din rezervă</label><select id="ammo-select">'+s.ammo.map(b=>'<option value="'+esc(b.id)+'">'+esc(b.label)+' · '+esc(b.id.slice(0,4))+'</option>').join('')+'</select><div class="actions">';
+  for(let i=0;i<6;i++)out+=commandButton('Camera '+(i+1)+(s.chambers[i]?' ●':''),s.chambers[i]?'unload':'load','data-slot="'+i+'"',!s.chambers[i]&&s.loaded>=s.required);
+  out+=commandButton('GATA','close','',s.loaded!==s.required);
+ }
+ if(s.stage==='decision'){out+=commandButton('TRAGE','chooseShoot');out+=commandButton('SKIP','skip');}
+ if(['aim','cardTarget'].includes(s.stage)){
+  for(const p of s.players.filter(p=>p.id!==s.myId))out+=commandButton(p.name,s.stage==='aim'?'target':'applyCard','data-target="'+esc(p.id)+'"');
+  if(s.stage==='aim')out+=commandButton('TRAGE!','shoot','class="danger"',s.targetIndex<0);
+ }
+ if(s.stage==='result')out+='<p>Așteaptă următoarea tură…</p>';
+ return out+'</div></section>';
+}
+function match(){return '<div class="match-top"><h2>'+(state.stage==='finished'?'CÂȘTIGĂTOR: '+esc(state.winner):'TURA '+state.turn+' · '+esc(state.activeName))+'</h2><button class="secondary" data-action="lobby">ÎNAPOI ÎN LOBBY</button></div><canvas id="scene" role="img" aria-label="Personajele la masa Fastest Hand"></canvas><div class="message" role="status" aria-live="polite">'+esc(state.message)+'</div>'+(state.stage==='finished'?'<div class="match-actions"><button class="play" data-action="start">JOACĂ DIN NOU</button></div>':localControls());}
+function render(force=false){
+ if(!state||closed)return;
+ $('#room').textContent=['lobby','match'].includes(screen)?'CAMERA '+state.code:localDemo?'HTML · DEMO LOCAL':'HTML · LAN';
+ const signature=JSON.stringify([screen,showJoin,selectedController,state.stage,state.players,state.turn,state.targetIndex,state.message,state.localView,state.settings,state.addresses]);
+ if(!force&&signature===renderKey){draw();return;}renderKey=signature;
+ let html=screen==='menu'?menu():screen==='settings'?settings():screen==='help'?help():screen==='lobby'?lobby():match();
+ if(localDemo&&screen==='match'){
+  if(controllerLastActive!==demoRules.current?.id){controllerLastActive=demoRules.current?.id;selectedController=controllerLastActive;}
+ }
+ $('#content').innerHTML=html;
+ // The controller lives outside the rerendered board: its session and gestures survive.
+ const root=document.getElementById('dock-root');
+ const dockMode=localDemo&&(screen==='match'||(screen==='lobby'&&showJoin))?(screen==='lobby'?'join':'match'):'';
+ document.getElementById('workspace').classList.toggle('with-controller',dockMode==='match');
+ root.hidden=!dockMode;
+ if(root.dataset.mode!==dockMode){root.dataset.mode=dockMode;root.innerHTML=dockMode?controllerDock(dockMode==='join'):'';
+  document.getElementById('controller-player')?.addEventListener('change',e=>{selectedController=e.target.value;mountController(true);});
+ }
+ const selector=document.getElementById('controller-player');
+ if(selector){selector.innerHTML=demoRules.players.map(p=>'<option value="'+esc(p.id)+'">'+esc(p.name)+'</option>').join('');selector.value=selectedController;}
+ mountController();
+ sceneObserver?.disconnect();const canvas=$('#scene');if(canvas){sceneObserver=new ResizeObserver(()=>draw());sceneObserver.observe(canvas);}
+ const input=$('#local-name');if(input)input.addEventListener('input',()=>localName=input.value);
+ $('#volume')?.addEventListener('input',e=>{volume=Number(e.target.value)/100;$('#volume-value').textContent=e.target.value+'%';});
+ $('#delay')?.addEventListener('input',e=>$('#delay-value').textContent=e.target.value+' secunde');
+ draw();
+}
+$('#content').addEventListener('click',async e=>{
+ const b=e.target.closest('button');if(!b||b.disabled)return;
+ if(b.dataset.screen){screen=b.dataset.screen;sound();render(true);return;}
+ if(b.dataset.action){await act(b.dataset.action,{id:b.dataset.id});return;}
+ if(b.dataset.command){await act('control',{command:{action:b.dataset.command,target:b.dataset.target,bullet:b.dataset.bullet||$('#ammo-select')?.value,slot:Number(b.dataset.slot),requestId:Date.now().toString(36)+Math.random().toString(36)}});return;}
+ if(b.hasAttribute('data-phone')&&localDemo){showJoin=!showJoin;selectedController='';render(true);document.getElementById('phone-frame')?.scrollIntoView({behavior:'smooth',block:'center'});return;}
+ if(b.hasAttribute('data-phone')){window.open('/controller?code='+encodeURIComponent(state.code),'_blank','noopener');return;}
+ if(b.dataset.copy){try{await navigator.clipboard.writeText(b.dataset.copy);b.textContent='Copiat';}catch{toast('Selectează adresa și copiaz-o cu Ctrl+C.');}return;}
+ if(b.hasAttribute('data-fullscreen')){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{toast('Browserul nu permite fullscreen.');}return;}
+ if(b.hasAttribute('data-close')){await act('menu');closed=true;$('#content').innerHTML='<section class="closed"><h1>Joc închis.</h1><p>Poți reveni în meniu sau închide această filă.</p><button data-reopen>ÎNAPOI LA MENIU</button></section>';return;}
+ if(b.hasAttribute('data-reopen')){closed=false;screen='menu';render(true);poll();}
+});
+$('#content').addEventListener('submit',async e=>{
+ e.preventDefault();
+ if(e.target.id==='local-form')await act('addLocal',{name:$('#local-name').value});
+ if(e.target.id==='settings-form'){
+  const settings={volume:Number($('#volume').value)/100,resultDelay:Number($('#delay').value)};
+  await act('settings',settings);if(state?.settings.volume===settings.volume){storage('fh-web-settings',JSON.stringify(settings));screen='menu';render(true);}
+ }
+});
+
+// Procedural Canvas art. Replace these helpers later with your own sprites.
+function draw(){
+ const canvas=$('#scene');if(!canvas||!state)return;
+ const width=canvas.getBoundingClientRect().width,compact=width<550,W=compact?640:1280,H=compact?850:600;
+ canvas.width=Math.round(width*Math.min(devicePixelRatio||1,2));canvas.height=Math.round(canvas.width*H/W);
+ const ctx=canvas.getContext('2d');ctx.setTransform(canvas.width/W,0,0,canvas.height/H,0,0);
+ const box=(x,y,w,h,color)=>{ctx.fillStyle=color;ctx.fillRect(x,y,w,h);};
+ const circle=(x,y,r,color)=>{ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();};
+ const text=(x,y,value,size=20,color='#f2ead8',align='center')=>{ctx.font='700 '+size+'px system-ui';ctx.textAlign=align;ctx.fillStyle=color;ctx.fillText(value,x,y);};
+ function gun(x,y,scale=1,loaded=[]){ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);box(-12,26,24,53,'#92623c');box(-14,-17,140,29,'#96a8ab');box(38,-17,88,7,'#d4dddd');circle(0,0,40,'#879a9e');circle(0,0,32,'#3c5057');for(let i=0;i<6;i++){const a=(i*60-90)*Math.PI/180;circle(Math.cos(a)*21,Math.sin(a)*21,7,loaded[i]?'#f4ac43':'#101719');}circle(0,0,5,'#b7c6c8');ctx.restore();}
+ function character(x,y,color,active=false,target=false,scale=1){
+  ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
+  if(target)circle(0,-20,50,'#793d36');if(active)circle(0,4,65,'#f4ac431c');
+  circle(0,70,37,'#0004');box(-22,33,17,35,'#33383e');box(5,33,17,35,'#33383e');box(-28,62,25,12,'#090d0f');box(3,62,25,12,'#090d0f');
+  box(-33,-6,66,46,color);box(-3,-6,6,46,'#1b2326');circle(0,-28,25,'#d2a06e');box(-9,-30,4,4,'#151b1d');box(5,-30,4,4,'#151b1d');box(-8,-17,16,3,'#151b1d');
+  box(-28,-62,56,20,color);box(-40,-43,80,8,color);box(-28,-46,56,4,'#151b1d');box(-46,-3,13,43,color);box(32,-3,28,12,color);circle(61,2,8,'#d2a06e');gun(72,active?-7:3,.27);ctx.restore();
+ }
+ box(0,0,W,H,'#101416');
+ if(screen==='menu'){
+  circle(W*.5,H*.5,compact?230:245,'#1b292a');character(W*.32,H*.43,colors[0],true,false,compact?1.6:2);character(W*.69,H*.55,colors[1],false,false,compact?1.6:2);
+  text(W/2,H*.83,'FASTEST HAND',compact?30:44,'#f4ac43');return;
+ }
+ box(15,20,W-30,H-42,'#162024');for(let x=20;x<W;x+=80)box(x,20,2,H-42,'#263034');box(15,H-62,W-30,40,'#35251d');
+ const cx=W/2,cy=compact?390:270;circle(cx,cy,compact?140:195,'#32504b');circle(cx,cy,compact?123:177,'#203a35');circle(cx,cy,compact?108:158,'#1a302d');
+ state.players.forEach((p,i)=>{
+  const two=state.players.length===2,x=compact?(i%2?W-125:125):(i%2?W-200:200),y=compact?(two?375:i<2?195:615):(two?260:i<2?160:405);
+  const active=p.id===state.activeId;character(x,y,colors[i],active,state.targetIndex===i,compact?1:1.07);
+  text(x,y+105,p.name,compact?26:23,active?'#f4ac43':'#f2ead8');
+  if(!compact)text(x,y+131,p.skip?'PAUZĂ '+p.skip:active?'ESTE TURA TA':'AȘTEAPTĂ',14,'#9caeaf');
+  if(state.targetIndex===i)text(x,y-90,'ȚINTĂ',compact?22:19,'#f65b50');
+ });
+ gun(cx,cy,compact?.9:1.2,state.chambers);
+ const labels={draw:'CARTONAȘ',cardTarget:'EFECT CARTONAȘ',load:'ÎNCARCĂ',decision:'TRAGE SAU SKIP',aim:'ALEGE ȚINTA',result:'REZULTAT',finished:'VICTORIE'};
+ text(cx,compact?770:568,labels[state.stage]||'',compact?29:19,'#f4ac43');
+}
+window.addEventListener('resize',draw);
+(async()=>{await poll();try{const saved=JSON.parse(storage('fh-web-settings')||'null');if(saved&&state)await act('settings',saved);}catch{}setInterval(poll,600);})();
+
+})();
+}
+</script></body></html>
